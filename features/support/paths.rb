@@ -20,7 +20,7 @@ module NavigationHelpers
             '/reviews/emergency'
         
         when /^the programs\s?page$/
-            '/programs/index'
+            '/programs'
             
         when /^the review\s?page$/
             'reviews/leave_review/os-fZ4atEmOxbIo36kG9gA'

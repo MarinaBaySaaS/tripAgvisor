@@ -4,4 +4,4 @@ Feature: Create programs page
 
 Scenario: Test for programs presence
     Given I am on the programs page
-    Then I should see class "programs-background"
+    Then I should see class "page-header"
