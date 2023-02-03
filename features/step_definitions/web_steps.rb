@@ -66,9 +66,9 @@ When /^(?:|I )follow "([^"]*)"$/ do |link|
   click_link(link)
 end
 
-When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
-  fill_in(field, :with => value)
-end
+# When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
+#   fill_in(field, :with => value)
+# end
 
 =begin
 When /^(?:|I )fill in "([^"]*)" for "([^"]*)"$/ do |value, field|
@@ -113,6 +113,42 @@ When /^(?:|I )uncheck "([^"]*)"$/ do |field|
 end
 =end
 
+
+
+Given /^an experience with no tags/ do 
+
+@experience1 = Experience.new(program: nil, user: nil, tags: nil)
+
+end
+
+Given /^an experience with tags=,/ do 
+
+@experience1 = Experience.new(program: nil, user: nil, tags: ",")
+
+end
+
+Given /^an experience with tags "([^"]*)"$/ do |stringVal|
+
+@experience1 = Experience.new(program: nil, user: nil, tags: stringVal)
+
+end
+
+When /^I ask for the tag array/ do 
+  
+  @resultVal = @experience1.tagArray()
+end
+
+Then /^I should get nil$/ do
+  expect(nil==@resultVal)
+end
+
+Then /^I should get an tag array "([^"]*)"$/ do |array|
+ @expected = array.split(",")
+  expect(@expected==@resultVal)
+ 
+end
+
+
 When /^(?:|I )choose "([^"]*)"$/ do |field|
   choose(field)
 end
@@ -126,24 +162,20 @@ end
 Then /^(?:|I )should see "([^"]*)"$/ do |text|
   if page.respond_to? :should
     page.should have_content(text)
-  else
-    assert page.has_content?(text)
   end
 end
 
-Then /^(?:|I )should see a "([^"]*)" card$/ do |text| 
-  if page.respond_to? :should
-    page.should have_content(text)
-  else
-    assert page.has_content?(text)
-  end
-end
+# Then /^(?:|I )should see a "([^"]*)" card$/ do |text| 
+#   if page.respond_to? :should
+#     page.should have_content(text)
+#   else
+#     assert page.has_content?(text)
+#   end
+# end
 
 Then /^(?:|I )should see class "([^"]*)"$/ do |text|
   if page.respond_to? :should
     page.should have_selector('.' + text)
-  else
-    assert page.have_selector?('.' +text)
   end
 end
 
@@ -160,8 +192,6 @@ end
 Then /^(?:|I )should see id "([^"]*)"$/ do |text|
   if page.respond_to? :should
     page.should have_selector('#' + text)
-  else
-    assert page.have_selector?('#' +text)
   end
 end
 

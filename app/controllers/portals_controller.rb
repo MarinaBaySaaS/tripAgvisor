@@ -22,7 +22,7 @@ class PortalsController < ApplicationController
                 if(not user.nil?) then
                     user.program_id = program.id
                     user.save
-                    curent_user.user_program_id = program.id
+                    current_user.user_program_id = program.id
                 end
             end
             redirect_to portal_path(program.id)
@@ -42,10 +42,12 @@ class PortalsController < ApplicationController
     
     def view
         #get this specific program
+        puts "HEYYYYY"
         @program = Program.find params[:id]
         
         # get list of all programs to display in drop down list for switching between
         @programs = Program.where(disabled: false)
+        puts "HALLO"
         
         
         # get the search terms, if the search starts with "tag: ", then only search tags
