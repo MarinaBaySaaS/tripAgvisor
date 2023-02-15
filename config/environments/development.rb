@@ -1,13 +1,17 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
-  config.hosts << "13d8c4c71c6b4d479ab0b6ea3d2d21f3.vfs.cloud9.us-east-2.amazonaws.com"
+  config.hosts << ENV['AWS_HOST']
+  # config.hosts << "999663bc4eee4a0cb47c75a9aaa9268b.vfs.cloud9.us-east-1.amazonaws.com"
+  # config.hosts << "389763a4bd934fd2b31f81763dda423c.vfs.cloud9.ap-northeast-1.amazonaws.com"
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
-
-  # Do not eager load code on boot.
+  # config.middleware.use RackSessionAccess::Middleware
+  # Do not eager load coproductionde on boot.
   config.eager_load = false
 
   # Show full error reports.
@@ -30,6 +34,8 @@ Rails.application.configure do
   end
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
+  # config.active_storage.service = :local
+  # config.active_storage.service = :test
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
@@ -61,5 +67,5 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000}
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end

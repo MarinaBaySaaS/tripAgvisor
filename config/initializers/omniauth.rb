@@ -1,9 +1,13 @@
+# frozen_string_literal: true
+
 Rails.application.config.middleware.use OmniAuth::Builder do
-    config = YAML::load(File.open("#{Rails.root.to_s}/config/settings.yml"))
-  
+  config = YAML.load(File.open("#{Rails.root}/config/settings.yml"))
+  OmniAuth.config.allowed_request_methods = %i[post get]
+  OmniAuth.config.silence_get_warning = true
+
   # change this
-    provider :google_oauth2, '971181149334-d9avbf8shp6ku8vgpvlkbntcohonhh5s.apps.googleusercontent.com',
-                            '5UgDl6FSacW1DYobM11yPhJt',
-                            image_size: 150,
-                            skip_jwt: true
+  provider :google_oauth2, ENV['GOOGLE_CLIENT_ID'],
+           ENV['GOOGLE_CLIENT_SECRET'],
+           image_size: 150,
+           skip_jwt: true
 end
