@@ -1,16 +1,21 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   get 'programs', to: 'programs#index'
   get 'reviews/index'
   get 'reviews/leave_review/:id', to: 'reviews#leave_review', as: 'leave_review'
   get 'sessions/create'
   get 'reviews/emergency'
-  get "/login", to: redirect("/auth/google_oauth2")
-  get "/auth/google_oauth2/callback", to: "sessions#create"
-  get "/logout", to: "sessions#destroy"
-  resource :session, only: [:create, :destroy]
+  get '/login', to: redirect('/auth/google_oauth2')
+  get '/auth/google_oauth2/callback', to: 'sessions#create'
+  get '/logout', to: 'sessions#destroy'
+  resource :session, only: %i[create destroy]
   resources :reviews
-  resources :programs
   resources :users
+  resources :programs do
+    resources :participants
+  end
+
   # resources :tips
   get 'users/:id/promote', to: 'users#promote'
   get 'users/:id/demote', to: 'users#demote'
@@ -32,6 +37,7 @@ Rails.application.routes.draw do
   post 'experience/:id/comment', to: 'experiences#create_comment'
   post 'experience/yelp_search', to: 'experiences#yelp_search'
   post 'tip/helpful', to: 'tips#helpful'
+  post 'tip/flagged', to: 'tips#flagged'
   delete 'experience/:id/delete', to: 'experiences#delete'
   delete 'experience/:id/delete_comment', to: 'experiences#delete_comment'
   delete 'tip/:id/delete', to: 'tips#delete'

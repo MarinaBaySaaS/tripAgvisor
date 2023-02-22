@@ -1,11 +1,22 @@
-<div id="page-header">Share Your Experience</div>
+<div id="page-header" style="background-image: url('<%= @program.banner.attached? ? url_for(@program.banner) : asset_path('header-background.jpg') %>');">
+  Share Your Experience
+</div>
+
 <div id="flex-container">
- <div id="column2" class="flex-item"><%= form_tag experiences_path, :method => :post do %>
+ <div id="column2" class="flex-item"><%= form_tag experiences_path, :method => :post, enctype: "multipart/form-data" do %>
     <table class="experience-edit-table">
         <tbody>
             <tr>
+                <td class="experience-edit-label">Title:</td>
+                <td><%= text_field :experience, :title, :required => true, :placeholder => "Enter a descriptive title" %><div class="experience-edit-title-tips">&nbsp;</div></td>
+            </tr>
+            <tr>
                 <td class="experience-edit-label">Experience:</td>
-                <td><%= text_area :experience, :experience, :required => true %><div class="experience-edit-field-tips">&nbsp;</div></td>
+                <td><%= text_area :experience, :experience, :required => true%><div class="experience-edit-field-tips">&nbsp;</div></td>
+            </tr>
+            <tr>
+                <td class="experience-edit-label">Image:</td>
+                <td><%= file_field_tag :image, class: "form-control" %>
             </tr>
             <tr>
                 <td class="experience-edit-label">Rating:</td>

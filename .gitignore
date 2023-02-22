@@ -17,6 +17,9 @@
 !/log/.keep
 !/tmp/.keep
 
+# Ignore all coverage files
+coverage*
+
 # Ignore uploaded files in development.
 /storage/*
 !/storage/.keep
@@ -36,5 +39,9 @@
 yarn-debug.log*
 .yarn-integrity
 
+.env
+
 .DS_Store
 reviews/vendor/bundle
+
+/config/credentials/production.key

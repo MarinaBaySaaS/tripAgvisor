@@ -2,6 +2,21 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+a {
+    text-decoration: none !important;
+}
+
+.actual-tip {
+    font-size:18px;    
+    margin-bottom: 4px;
+}
+
+.stickyboi {
+    position: sticky;
+    top: 100px;
+    display: hidden;
+}
+
 #index-search-box{
     background:#fff;
     border-radius: 32px;
@@ -28,14 +43,32 @@
     top: 0px;
     left: 400px;
     z-index: 9999;
+    width: 15vw;
 }
+
+
 #portal-switch-programs select{
     background:#ededed;
     border:0px;
     font-size: 16px;
-    width: 250px;
+    width: 16vw;
+    border: 4px solid #DEDEDE;
+    border-radius: 10px;
+    background-color: #DEDEDE;
+    font-family: "Arial", serif;
 }
 
+.program-dropdown-middle {
+    display: flex;
+    position: fixed;
+    left: 42vw;
+    top: 0.8vw;
+    margin: 0 auto;
+    padding-left: 0;
+    width: 16vw;
+    background-color: #DEDEDE;
+    border-radius: 10px;
+}
 
 #column1{
 	order: 1;
@@ -65,12 +98,22 @@
 }
 
 #search-wrapper{
-    margin-top: -25px;
-    text-align: center;
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 150px;
+    padding-right: 150px;
 }
+
+.third { 
+    max-width: 33%;
+}
+
 .search-border-outer{
     border: 2px solid #000;
     display: inline-block;
+    flex-shrink: 0;
     border-radius: 3px;
 }
 .search-border-inner{
@@ -89,17 +132,88 @@
     float: right;
 }
 
+.header-button {
+    border: 2px solid #900000;
+    color: #900000;
+    border-radius: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-size: 21px;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.header-button:hover {
+    background-color: #900000;
+    border-radius: 10px;
+    color: white;
+}
+
+.header-button-text:hover {
+    color: white;
+}
+
+.participant-button {
+    border: 2px solid #6495ed;
+    color: #6495ed;
+    border-radius: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-size: 21px;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.participant-button:hover {
+    background-color: #6495ed;
+    border-radius: 10px;
+    color: white;
+}
+
+.participant-button-text:hover {
+    color: white;
+    text-color: white;
+}
+
+.blue-link {
+    color: #6495ed;
+    text-decoration: none;
+}
+
+.blue-link:hover {
+    color: white;
+}
+
+.program-selector {
+    width: 1px;
+    text-align: center;
+    
+}
+
+
+.program-options {
+    width: 1px;
+    text-align: center;
+}
+
+
 .portal-column-title{
-    font-size: 22px;
+    font-size: 32px;
     font-weight: 700;
     font-family: Arial;
-    justify-content: space-between;
+    color: black;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     min-width: 200px;
-    padding: 5px 5px;
-    margin: 15px 0;
-    background: linear-gradient(90deg, rgb(51, 51, 51) 0%, rgb(204, 204, 204) 40%, rgb(255, 255, 255) 80%, rgb(255, 255, 255) 100%);
-    color: #fff;
+    margin-top: 25px;
+    //border-bottom: 1px solid gray;
 }
 .portal-column-title-sort{
     position: absolute;
@@ -120,7 +234,15 @@
 	margin: 5px 0;
 }
 
-.portal-tip, .portal-experience, .portal-experience-single{
+.portal-experience-outer-wrapper {
+    padding: 24px;
+    border-radius: 15px;
+    background-color: #FFFFFF;
+    border: 4px solid rgb(165, 165, 165);
+    margin-top: 25px;
+}
+
+.portal-tip {
     width: 100%;
     margin: 15px 0;
     min-width: 160px;
@@ -130,26 +252,92 @@
     font-size: 13px;
     line-height: 15px;
 }
-.portal-experience, .portal-experience-single{
-    margin: 5px 0;
+
+.portal-experience {
+    font-size: 21px;
+}
+
+.portal-experience-title {
+    display: flex;
+    justify-content: space-between;
+    font-size: 24px;
+    margin-bottom: 2px;
+    color: black;
+    font-weight: 500;
+}
+
+.portal-experience-description {
+    font-size: 18px;
+    color: black;
+}
+
+.portal-experience-photo {
+    display: flex;
+    padding: 1 rem;
+}
+
+
+.portal-experience-tags {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.portal-experience-tag {
+    font-size: 12px;
+    padding: 2px 12px;
+    border: 2px solid #900000; 
+    border-radius: 25px;
+}
+
+.portal-experience-info {
+    margin-bottom: 16px;
+}
+
+.portal-experience-info-user {
+    font-size: 13px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.portal-experience-info-date {
+    font-size: 13px;
+}
+
+.portal-experience-icons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.portal-experience-icon {
+    font-size: 15px;
+
+}
+
+.portal-experience-rating-average {
+    font-size: 13px;
 }
 
 .portal-experience:hover{
-    background: #f7ffff;
-    border-left: 3px solid #009494;
     cursor: pointer;
 }
 
+.hidden-submit {
+    height:0px;
+    width:0px;
+    opacity:0;
+}
+
 .portal-experience-delete{
-    position: absolute;
-    top: -17px;
-    right: -22px;
     background: #f00;
+    margin-top: 5px;
     color: #fff;
     padding: 0 5px;
     box-shadow: 1px 3px 3px #ccc;
     border-radius: 3px;
 }
+
 .portal-tip-delete{
     position: absolute;
     top: -7px;
@@ -178,36 +366,17 @@
     cursor: pointer;
 }
 
-.portal-experience-tags{
-    position: absolute;
-    bottom: 17px;
-}
-.portal-experience-tags div{
-    display: inline-block;
-    background: #eee;
-    color: #333;
-    border-radius: 7px;
-    font-size: 11px;
-    padding: 0 7px;
-    margin-right: 8px;
-    box-shadow: 1px 0.5px 1px #999;
-}
-.portal-experience-tags div:hover{
-    cursor: pointer;
-}
-
-
-.portal-tip-info, .portal-experience-info{
-    position: absolute;
-    bottom: 0;
-    left: 5px;
-    font-size: 9px;
-    color: #999999;
-}
 .portal-experience-info-date-updated{
     padding-left: 15px;
+    font-size: 13px;
     color: #bbbbbb;
 }
+
+.portal-tip-flag{
+    position: absolute;
+    bottom: 0;
+}
+
 .portal-tip-helpful, .portal-experience-rating{
     position: absolute;
     line-height: 16px;
@@ -217,7 +386,7 @@
     color: #999;
 }
 
-.portal-tip-helpful .tip-helpful-yes, .portal-tip-helpful .tip-helpful-no{
+.portal-tip-helpful .tip-helpful-yes, .portal-tip-helpful .tip-helpful-no, .portal-tip-flag .tip-flagged-yes{
     display: inline-block;
     height: 16px;
     cursor: pointer;
@@ -227,7 +396,7 @@
     color: #666;
 }
 
-.portal-tip-helpful .tip-helpful-yes-nologin, .portal-tip-helpful .tip-helpful-no-nologin{
+.portal-tip-helpful .tip-helpful-yes-nologin, .portal-tip-helpful .tip-helpful-no-nologin, .portal-tip-flag .tip-flagged-yes-nologin{
     display: inline-block;
     height: 16px;
     padding-left: 20px;
@@ -236,7 +405,18 @@
     color: #666;
 }
 
-
+.portal-tip-flag .tip-flagged-yes, .portal-tip-flag .tip-flagged-yes-nologin, .portal-experience-flag .experience-flagged-yes, .portal-experience-flag .experience-flagged-yes-nologin{
+    background-image: url(asset_path("flag_off.png"));
+    //background-position-y: 0%;
+}
+.portal-tip-flag .tip-flagged-yes:hover, .portal-experience-flag .experience-flagged-yes:hover{
+    background-image: url(asset_path("flag_on.png"));
+    //background-position-y: 100%;
+}
+.portal-tip-flag .flagged, .portal-experience-flag .flagged{
+    background-image: url(asset_path("flag_on.png"));
+    //background-position-y: 100%;
+}
 
 .portal-tip-helpful .tip-helpful-yes, .portal-tip-helpful .tip-helpful-yes-nologin{
     background-image: url(asset_path("thumbs_up2.png"));
@@ -257,8 +437,6 @@
 .portal-tip-helpful .voted{
     background-position-y: 100%;
 }
-
-
 
 .portal-tips-none, .portal-experiences-none{
     font-style: italic;
@@ -539,12 +717,9 @@
 
 .experience-div{
     background: #ededed;
-    height: 8px;
     width: calc(100% + 42px);
-    margin-left: -21px;
-    border-bottom: 1px solid #ccc;
-    border-top: 2px solid #900000;
-    margin-bottom: 10px;
+    //border-bottom: 1px solid #ccc;
+    //border-top: 2px solid #900000;
 }
 
 
@@ -592,7 +767,15 @@
 @media only screen and (max-width: 1000px) {
     #flex-container{
         flex-direction: column;
+        gap:25px;
         align-items: stretch;
+    }
+
+    #search-wrapper {
+        flex-direction: column;
+        gap: 25px;
+        padding-left: 0;
+        padding-right: 0;
     }
   
     #column1{
@@ -645,7 +828,7 @@
         max-width: 300px;
     }
   
-    .portal-tip{
+    .portal-tip {
         margin: 0 5px;
         max-width: 220px;
         height: 100%;
@@ -653,5 +836,9 @@
   
     .portal-experience{
         margin: 0 5px;
+    }
+    
+    .stickyboi {
+        position: relative;
     }
 }
