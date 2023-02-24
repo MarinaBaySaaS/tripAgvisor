@@ -1,8 +1,25 @@
 class ExperiencesController < ApplicationController
 
+    # before_action :checkPrivilege
+    
+    # def checkPrivilege
+    #     participant = Participant.find_by(email: current_user.email, program_id: params[:id])
+    #     if participant.nil?
+    #         flash[:alert] = "You are not assigned to this program."
+    #         redirect_to portal_path(params[:id]) and return 
+    #     end
+    # end
+
     def new
+        @program = Program.find params[:id]
         @experience = Experience.new
         program = Program.find params[:id]
+        participant = Participant.find_by(email: current_user.email, program_id: program.id)
+        if participant.nil? and not current_user.admin
+            puts "FOUND NIL"
+            flash[:alert] = "You are not assigned to this program."
+            redirect_to portal_path(params[:id]) and return 
+        end
         @near = program.location
     end
     
@@ -12,21 +29,26 @@ class ExperiencesController < ApplicationController
             redirect_to portal_path(params[:id]) and return
         end
         
+        
         tagArray = params[:experience][:tags].split(",")
         tagArrayFixed = ","   # list of tags in database will begin and end with a comma, and no spaces around the commas
         tagArray.each do |tag|
             tag = tag.strip.upcase
             tagArrayFixed += tag + ","
         end
-
         
-        newExperience = Experience.create(:experience => params[:experience][:experience], :rating => params[:experience][:rating], :tags => tagArrayFixed, :user_id => current_user.id, :program_id => params[:id])
+        newExperience = Experience.create(:title => params[:experience][:title], :experience => params[:experience][:experience], :rating => params[:experience][:rating], :tags => tagArrayFixed, :user_id => current_user.id, :program_id => params[:id])
+        
+        if params[:image]
+            newExperience.image.attach(params[:image])
+        end
+         flash[:notice] = "Experience was successfully created."
+     
 
         if(params.has_key?(:yelp_id))
             # has a Yelp location selected
             YelpLocation.create(:experience_id => newExperience.id, :name => params[:yelp_name], :address => params[:yelp_address], :alias => params[:yelp_alias], :yelp_id => params[:yelp_id], :url => params[:yelp_url], :image_url => params[:yelp_image_url], :rating => params[:yelp_rating], :yelp_tags => params[:yelp_tags])
         end
-        
         
         redirect_to portal_path(params[:id])
     end
@@ -34,6 +56,13 @@ class ExperiencesController < ApplicationController
     
     def view
         @experience = Experience.left_outer_joins(:user).left_outer_joins(:yelp_location).select("experiences.*,users.name as user_name,yelp_locations.name as yelp_name, yelp_locations.address as yelp_address, yelp_locations.alias as yelp_alias, yelp_locations.url as yelp_url, yelp_locations.image_url as yelp_image_url, yelp_locations.rating as yelp_rating").where(experiences: {id: params[:id]}).where(users: {banned: false}).first
+        participant = Participant.find_by(email: current_user.email, program_id: @experience.program_id)
+        if participant.nil? and not current_user.admin
+            puts "FOUND NIL"
+            flash[:alert] = "You are not assigned to this program."
+            redirect_to portal_path(params[:id]) and return 
+        end
+
         @program = Program.find @experience.program_id
         
         @experience.comments = ExperienceComment.left_outer_joins(:user).select("experience_comments.*,users.name as user_name").where(experience_id: params[:id]).where(users: {banned: false}).order(created_at: :desc)
@@ -97,10 +126,10 @@ class ExperiencesController < ApplicationController
     # deletes a whole experience
     def delete
         # prevent unauthorized deletions
-         if(not logged_in?)
-            flash[:alert] = "You are not authorized to delete this post!"
-            redirect_to root_path and return 
-         end
+        if(not logged_in? or not current_user.admin)
+           flash[:alert] = "You are not authorized to delete this post!"
+           redirect_to root_path and return 
+        end
         
         experience = Experience.find params[:id]
         
@@ -191,7 +220,7 @@ class ExperiencesController < ApplicationController
             redirect_to experience_path(params[:id]) and return
         end
         
-        if(params[:experience][:experience].blank? || params[:experience][:rating].blank?) # experience and rating are required
+        if(params[:experience][:title].blank? || params[:experience][:experience].blank? || params[:experience][:rating].blank?) # experience and rating are required
             flash[:alert] = "Cannot update experience"
             redirect_to experience_path(params[:id]) and return
         end
@@ -204,8 +233,12 @@ class ExperiencesController < ApplicationController
         end
 
         @experience = Experience.find params[:id]
-        @experience.update_attributes(:experience => params[:experience][:experience], :rating => params[:experience][:rating], :tags => tagArrayFixed)
-
+        @experience.update_attributes(:title => params[:experience][:title], :experience => params[:experience][:experience], :rating => params[:experience][:rating], :tags => tagArrayFixed)
+        
+        if params[:image]
+            @experience.image.attach(params[:image])
+        end
+        
         # delete any existing associated location
         YelpLocation.where(experience_id: params[:id]).destroy_all
         
@@ -217,5 +250,11 @@ class ExperiencesController < ApplicationController
         
         
         redirect_to experience_path(params[:id])
+    end
+    
+    private
+    
+    def experience_params
+        params.require(:experience).permit(:title, :experience, :rating, :tags, :location, :image)
     end
 end

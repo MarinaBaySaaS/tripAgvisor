@@ -1,62 +1,71 @@
     <div class="portal-experience-wrapper" id="test">
-     <div class="portal-experience<%if locals[:single] == true %>-single<% end %>"><%= locals[:experience].experience %>
-     	 <%if current_user.admin || locals[:experience].user_id == current_user.id %><div class="portal-experience-delete" id="portal-experience-delete-<%= locals[:experience].id %>">&#10006; </div><% end %>
-     	 <% if not locals[:experience].yelp_name.nil? %><div class="portal-experience-location"><div class="yelp-image"><img src="<%= locals[:experience].yelp_image_url %>"></div><div class="yelp-info"><div class="yelp-info-name"><%= locals[:experience].yelp_name %></div><div class="yelp-info-address"><%= locals[:experience].yelp_address %></div><div class="yelp-info-rating">Yelp Rating: <img src="<%= asset_path("yelp-rating-" + locals[:experience].yelp_rating + ".png") %>"></div><div class="yelp-links"><a class="yelp-link" href="<%= locals[:experience].yelp_url %>" target="_blank">View on Yelp</a> | <a class="yelp-link" href="https://www.yelp.com/map/<%= locals[:experience].yelp_alias %>" target="_blank">View Map</a></div></div></div><% end %>
-     	 <div class="portal-experience-tags"><% if not locals[:experience].tagArray.nil? then locals[:experience].tagArray.each do |tag| %><div class="tag"><%= tag %></div><% end end %></div>
-         <div class="portal-experience-info"><span class="portal-experience-info-user"><%= locals[:experience].user_name %></span> | <span class="portal-experience-info-date"><%= locals[:experience].created_at.strftime("%b %-d, '%y") %></span><% if locals[:experience].created_at != locals[:experience].updated_at %><span class="portal-experience-info-date-updated">updated: <%= locals[:experience].updated_at.strftime("%b %-d, '%y") %></span><% end %></div>
+     <div class="portal-experience">
+		 	<div class="portal-experience-title">
+				<%= locals[:experience].title %>
+					<div class="portal-experience-icons">
+				<% if locals[:experience].user_id == current_user.id %>	
+						<p class="portal-experience-icon">Flag</p>
+				<% end %>
+					<div>
+						<%if current_user.admin || locals[:experience].user_id == current_user.id %><div class="portal-experience-delete" id="portal-experience-delete-<%= locals[:experience].id %>">&#10006; </div><% end %>
+					</div>
+					</div>
+			</div>
+			<div class="portal-experience-tags">
+				<% if not locals[:experience].tagArray.nil? then locals[:experience].tagArray.each do |tag| %>
+					<div class="portal-experience-tag">
+						#<%= tag %>
+					</div>
+					<% end end %>
+			</div>
+			<div class="portal-experience-photo">
+				<% if locals[:experience].image.attached? %>
+					<%= image_tag locals[:experience].image, style: "width: 300px; "%>
+				<%end%>
+			</div>
+			</br>
+			<div class="portal-experience-description">
+				<%= locals[:experience].experience%>
+			</div>
+			<div class="portal-experience-info">
+			<span class="portal-experience-info-user">
+				<%= link_to locals[:experience].user.name, user_path(locals[:experience].user), data: { turbolinks: false } %>
+			</span>
+			<span class="portal-experience-info-date">
+				<%= locals[:experience].created_at.strftime("%b %-d, '%y") %>
+			</span>
+			<% if locals[:experience].created_at != locals[:experience].updated_at %>
+			<span class="portal-experience-info-date-updated">
+				updated: <%= locals[:experience].updated_at.strftime("%b %-d, '%y") %>
+			</span>
+			<% end %>
+			<div class="portal-experience-rating-average">
+				Average: <%= locals[:experience].average_rating %>
+			</div>
+			</div>
          <div class="portal-experience-rating">
-             					<% if locals[:experience].rating.nil? %>
+								<% if locals[:experience].rating.nil? %>
 									<%= content_tag :h4, " "%>
 								<% elsif locals[:experience].rating == 0 %>
-									<%= image_tag("gigs_grey.svg", size: "20") %>
-									<%= image_tag("gigs_grey.svg", size: "20") %>
-									<%= image_tag("gigs_grey.svg", size: "20") %>
-									<%= image_tag("gigs_grey.svg", size: "20") %>
-									<%= image_tag("gigs_grey.svg", size: "20") %>
 								<% elsif locals[:experience].rating == 1 %>
-									<%= image_tag("gigs_maroon.svg", size: "20") %>
-									<%= image_tag("gigs_grey.svg", size: "20") %>
-									<%= image_tag("gigs_grey.svg", size: "20") %>
-									<%= image_tag("gigs_grey.svg", size: "20") %>
-									<%= image_tag("gigs_grey.svg", size: "20") %>
 								<% elsif locals[:experience].rating == 2 %>
-									<%= image_tag("gigs_maroon.svg", size: "20") %>
-									<%= image_tag("gigs_maroon.svg", size: "20") %>
-									<%= image_tag("gigs_grey.svg", size: "20") %>
-									<%= image_tag("gigs_grey.svg", size: "20") %>
-									<%= image_tag("gigs_grey.svg", size: "20") %>
 								<% elsif locals[:experience].rating == 3 %>
-									<%= image_tag("gigs_maroon.svg", size: "20") %>
-									<%= image_tag("gigs_maroon.svg", size: "20") %>
-									<%= image_tag("gigs_maroon.svg", size: "20") %>
-									<%= image_tag("gigs_grey.svg", size: "20") %>
-									<%= image_tag("gigs_grey.svg", size: "20") %>
 								<% elsif locals[:experience].rating == 4 %>
-									<%= image_tag("gigs_maroon.svg", size: "20") %>
-									<%= image_tag("gigs_maroon.svg", size: "20") %>
-									<%= image_tag("gigs_maroon.svg", size: "20") %>
-									<%= image_tag("gigs_maroon.svg", size: "20") %>
-									<%= image_tag("gigs_grey.svg", size: "20") %>
 								<% elsif locals[:experience].rating == 5 %>
-									<%= image_tag("gigs_maroon.svg", size: "20") %>
-									<%= image_tag("gigs_maroon.svg", size: "20") %>
-									<%= image_tag("gigs_maroon.svg", size: "20") %>
-									<%= image_tag("gigs_maroon.svg", size: "20") %>
-									<%= image_tag("gigs_maroon.svg", size: "20") %>
 								<% end %>
-			<div class="portal-experience-rating-average">Average: <%= locals[:experience].average_rating %></div>
          </div>
      </div>
      <div class="portal-experience-comments">
-     	<% if locals[:experience].comments.size > 0 then %><div class="portal-experience-comment-count<%if locals[:single] == true %>-single<% end %>">Comments: <%= locals[:experience].totalComments %> <span class="down-arrow"><i></i></span></div><% end %>
-     	<% if current_user.id then %><div class="portal-experience-leave-comment" id="wrapper_add_comment_<%= locals[:experience].id %>"><textarea id="add_comment_<%= locals[:experience].id %>" name="add_comment" placeholder="Leave a comment"></textarea><input id="submit_add_comment_<%= locals[:experience].id %>" class="submit_add_comment" type="submit" value="Save Comment"><div class="comment_rating_wrapper"><%= label :rating, "Rating:", :class => "comment_label" %>
-                <fieldset class="rating">
-                      <input type="radio" value="5" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_5_<%= locals[:experience].id %>" /> <label for="comment_rating_5_<%= locals[:experience].id %>">Rating 5</label> 
-                      <input type="radio" value="4" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_4_<%= locals[:experience].id %>" /> <label for="comment_rating_4_<%= locals[:experience].id %>">Rating 4</label> 
-                      <input type="radio" value="3" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_3_<%= locals[:experience].id %>" /> <label for="comment_rating_3_<%= locals[:experience].id %>">Rating 3</label> 
-                      <input type="radio" value="2" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_2_<%= locals[:experience].id %>" /> <label for="comment_rating_2_<%= locals[:experience].id %>">Rating 2</label> 
-                      <input type="radio" value="1" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_1_<%= locals[:experience].id %>" /> <label for="comment_rating_1_<%= locals[:experience].id %>">Rating 1</label>
-                </fieldset></div></div><% end %>
+     	<% if locals[:experience].comments&.size.to_i > 0 then %><div class="portal-experience-comment-count<%if locals[:single] == true %>-single<% end %>">Comments: <%= locals[:experience].totalComments %> <span class="down-arrow"><i></i></span></div><% end %>
+     	<% if logged_in? then %><div class="portal-experience-leave-comment" id="wrapper_add_comment_<%= locals[:experience].id %>"><textarea id="add_comment_<%= locals[:experience].id %>" name="add_comment" placeholder="Leave a comment"></textarea><input id="submit_add_comment_<%= locals[:experience].id %>" class="submit_add_comment" type="submit" value="Save Comment"><div class="comment_rating_wrapper"><%= label :rating, "Rating:", :class => "comment_label" %>
+					<fieldset class="rating">
+						<input type="radio" value="5" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_5_<%= locals[:experience].id %>" /> <label for="comment_rating_5_<%= locals[:experience].id %>">Rating 5</label> 
+						<input type="radio" value="4" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_4_<%= locals[:experience].id %>" /> <label for="comment_rating_4_<%= locals[:experience].id %>">Rating 4</label> 
+						<input type="radio" value="3" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_3_<%= locals[:experience].id %>" /> <label for="comment_rating_3_<%= locals[:experience].id %>">Rating 3</label> 
+						<input type="radio" value="2" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_2_<%= locals[:experience].id %>" /> <label for="comment_rating_2_<%= locals[:experience].id %>">Rating 2</label> 
+						<input type="radio" value="1" name="comment_rating_<%= locals[:experience].id %>" id="comment_rating_1_<%= locals[:experience].id %>" /> <label for="comment_rating_1_<%= locals[:experience].id %>">Rating 1</label>
+					</fieldset></div></div><% end %>
+        <% if locals[:experience].comments&.size.to_i > 0 then %>
         <div class="portal-experience-comments-list<%if locals[:single] == true %>-single<% end %>">
         	<% locals[:experience].comments.each do |comment| %>
         		<div class="portal-experience-comment"><%= comment.comment %>
@@ -65,7 +74,9 @@
         			<div class="comment-rating"><%if comment.rating != nil %><img src="<%=asset_path(comment.rating.to_s + "_thumb2.png")%>" height="16"><% end %></div>
         		</div>
         	<% end %>
+        	
         	<% if locals[:experience].comments.size != locals[:experience].totalComments %><div class="portal-experience-comment-more"><a href="/experience/<%= locals[:experience].id %>">see <%= locals[:experience].totalComments - locals[:experience].comments.size%> more comments</a></div><% end %>
         </div>
+        <% end %>
      </div>
     </div>
